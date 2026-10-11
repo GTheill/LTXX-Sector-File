@@ -1,13 +1,121 @@
-[client_page.configs.TRvACC]
-include = ["ANK_CTR", "ANK_*_CTR", "IST_*_APP", "LT*", "LBS*_CTR"]
-exclude = ["LTC_CTR", "LTC_*_CTR"]
-priority = ["*_FMP", "*_CTR", "*_APP", "*_TWR", "*_GND"]
-frequencies = "ShowAll"
-grouping = "Icao"
+# VATSIM Türkiye (LTXX) client page for vacs 2.
+# Docs: https://github.com/vacs-project/vacs/blob/main/vacs-client/docs/config/client_page.md
+#
+# Two configs, switched in the client UI:
+#   Default  — every Turkish controller position
+#   Centers  — those same positions, plus neighbour centres
+#
+# "Default" is the name vacs selects on a fresh install
+# (selected_client_page_config = "Default").
 
-[client_page.configs.ANKCTR]
-include = ["ANK_CTR", "ANK_*_CTR", "IST_*_APP", "LT*", "LBS*_CTR", "LG*_CTR", "LCC*_CTR", "TEH*_CTR", "OSTT_CTR", "ORBB*_CTR", "UDDD_CTR", "UGGG_CTR", "URRV_CTR", "UKR_CTR"]
-exclude = ["LTC_CTR", "LTC_*_CTR"]
-priority = ["*_FMP", "*_CTR", "*_APP", "*_TWR", "*_GND"]
+[client_page.configs.Default]
+# LT* is every Turkish airport and LTAA/LTBB/LTXX bandbox.
+# Ankara ACC (both FIRs) logs on as ANK_*, not LTAA_*/LTBB_*.
+# Yesilkoy Approach sectors log on as IST_E_APP and IST_W_APP.
+include = [
+  "LT*",
+  "ANK_*",
+  "IST_*",
+]
+exclude = [
+  # London TMA (EGTL/EGTT) uses LTC_CTR, LTC_N_CTR, LTC_NE_CTR, LTC_S_CTR, ...
+  # The underscore is required: LTCA, LTCC, LTCG and the other Turkish LTC
+  # airports do not match LTC_* and stay visible.
+  "LTC_*",
+  # ATIS is not a station you call.
+  "*_ATIS",
+]
+priority = [
+  "*_FMP",
+  "ANK_*",
+  "*_CTR",
+  "*_FSS",
+  "*_APP",
+  "*_TWR",
+  "*_GND",
+  "*_DEL",
+]
+frequencies = "ShowAll"
+grouping = "FirAndIcao"
+
+[client_page.configs.Centers]
+# Everything on Default, plus centres (and the VATSIM FSS positions that
+# cover those centres when the national ACC is offline).
+# Neighbour APP/TWR/GND/DEL stay hidden.
+include = [
+  # --- Turkish positions (same set as Default) ---
+  "LT*",
+  "ANK_*",
+  "IST_*",
+
+  # --- Centres that share a boundary with LTAA or LTBB ---
+  # Patterns end in CTR (or FSS) so a neighbour tower or approach cannot match.
+  # Sofia. Black Sea sector (LBSR_B) is the one on the Turkish boundary.
+  "LBSR*CTR",
+  # Athens ACC, including upper (LGGG_U) and the Aegean sectors.
+  # LGGG_FSS is Athens Information, the bandbox when the ACC is offline.
+  "LGGG*CTR",
+  "LGGG*FSS",
+  # Macedonia ACC (Kavala, Limnos, West).
+  "LGMD*CTR",
+  # Nicosia, including east/west and the EL/WL and S1/S2 splits.
+  "LCCC*CTR",
+  # Tehran. VATSpy callsign is TEH; OIIX_CTR is the FIR-id login.
+  "TEH*CTR",
+  "OIIX*CTR",
+  # Damascus. Sector file uses OSTT; VATSpy prefix is OSDI, which is also
+  # the airport, so only OSDI centre logins are included.
+  "OSTT*CTR",
+  "OSDI_*CTR",
+  # Baghdad.
+  "ORBB*CTR",
+  # Yerevan. Sector file uses UDDD; VATSpy prefix is UGEE (not an airport).
+  "UDDD*CTR",
+  "UGEE*CTR",
+  # Tbilisi.
+  "UGGG*CTR",
+  # Baku. Sector file uses UBBA. VATSpy prefix UBBB is also Heydar Aliyev,
+  # so only UBBB centre logins are included. The FIR boundary sits about
+  # 11 km off the Turkish border at Nakhchivan; treated as adjacent.
+  "UBBA*CTR",
+  "UBBB_*CTR",
+  # Rostov.
+  "URRV*CTR",
+  # Ukraine combined radar, and Simferopol (UKFV), which is the sector that
+  # actually touches LTBB. UKFF is the airport as well as the VATSpy prefix.
+  "UKR_*CTR",
+  "UKFV*CTR",
+  "UKFF_*CTR",
+  # Odesa and Dnipro are published as centres in the LTXX sector file.
+  # UKOV is also Voznesensk airport, and UKOO is Odesa airport, so only
+  # centre logins are included.
+  "UKOV_*CTR",
+  "UKOO_*CTR",
+  "UKDV*CTR",
+
+  # --- VATSIM top-down centres from the LTXX sector file ---
+  # EUC-SE covers LTAA, LTBB and LCCC. EUC-SW covers LGGG, LBSR and LRBB.
+  # Not EUC-S*: that would also match EUC-ES (Italy and the Adriatic).
+  "EUC-SE*CTR",
+  "EUC-SW*CTR",
+  # Gulf Control covers Tehran, Baghdad and Damascus when those ACCs are offline.
+  "GULF*FSS",
+  # Caucasus Radar covers Rostov, Tbilisi, Yerevan and Baku.
+  "RU-SC*FSS",
+]
+exclude = [
+  "LTC_*",
+  "*_ATIS",
+]
+priority = [
+  "*_FMP",
+  "ANK_*",
+  "*_CTR",
+  "*_FSS",
+  "*_APP",
+  "*_TWR",
+  "*_GND",
+  "*_DEL",
+]
 frequencies = "ShowAll"
 grouping = "FirAndIcao"
