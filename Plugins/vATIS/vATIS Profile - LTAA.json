@@ -1,6 +1,6 @@
 {
   "name": "LTAA",
-  "id": "241b57e9-61e6-432c-adfe-4db21030df33",
+  "id": "7a03b211-148c-49e8-ae75-df598ce3d8e1",
   "updateUrl": "https://raw.githubusercontent.com/VATSIM-Turkiye/LTXX-Sector-File/refs/heads/main/Plugins/vATIS/vATIS%20Profile%20-%20LTAA.json",
   "updateSerial": 2026092900,
   "stations": [
@@ -22835,7 +22835,7 @@
       },
       "notamsBeforeFreeText": false,
       "airportConditionsBeforeFreeText": false,
-      "frequency": 124450000,
+      "frequency": 129325000,
       "useDecimalTerminology": false,
       "atisVoice": {
         "useTextToSpeech": true,
