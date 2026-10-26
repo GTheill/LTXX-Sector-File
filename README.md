@@ -18,7 +18,7 @@ Once approved, contributors may submit a Pull Request referencing the correspond
 
 **Pull Requests submitted without prior approval will not be accepted.**
 
-For additional contribution guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md).
+For additional contribution guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## Bugs, feedback & suggestions
 We use GitHub's issue board to track sector file-related matters, including:
